@@ -76,8 +76,10 @@
 	}
 
 	canvas.addEventListener('mousemove', draw);
+	canvas.addEventListener('touchmove', draw);
 	canvas.addEventListener('mouseup', () => drawing = false);
 	canvas.addEventListener('mouseout', () => drawing = false);
+	canvas.addEventListener('touchend', draw);
 	window.addEventListener('keypress', color, false);
 	window.addEventListener('keydown', arrows, false);
 
