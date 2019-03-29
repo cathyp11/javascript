@@ -15,136 +15,85 @@
 </head>
 <body>
 	<canvas id="canvas">
-  An alternative text describing what your canvas displays. 
-</canvas>
-<script>
-	var canvas = document.querySelector('canvas');
-  	var ctx = canvas.getContext('2d');
-	canvas.width = window.innerWidth*.8;
+  		An alternative text describing what your canvas displays. 
+	</canvas>
+	<input type="color" value="#e66465" onchange="colorPick(value)">
+
+<script type="text/javascript">
+    var canvas = document.querySelector('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth*.8;
 	canvas.height = window.innerHeight*.8;
 
-	ctx.strokeStyle = 'red';
+	ctx.fillStyle = 'red';
+	var radius = 5;
 
-	var drawing = false;
-	var lastX = 0;
-	var lastY = 0;
+    function draw() {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI*2);
+        ctx.closePath();
+        ctx.fill();
+    }	
 
-	function draw(e) {
-		if(!drawing) return;
-		ctx.beginPath();
-		ctx.moveTo(lastX, lastY);
-		ctx.lineTo(e.offsetX, e.offsetY);
-		ctx.stroke();
-		lastX = e.offsetX;
-		lastY = e.offsetY;
+	function clearCanvas(canvas,ctx) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
 	}
-
-	canvas.addEventListener('mousedown', (e) => {
-		drawing = true;
-		lastX = e.offsetX;
-		lastY = e.offsetY;
-	});
 
 	function color(e) {
 	  	var pressed = e.keyCode;
 	  	if(pressed == 98) {
-	  		ctx.strokeStyle = 'blue';
+	  		ctx.fillStyle = 'blue';
+	  		console.log('blue')
 	  	}
 	  	else if(pressed == 103) {
-	  		ctx.strokeStyle = "green";
+	  		ctx.fillStyle = "green";
 	  	}
 	  	else if(pressed == 114) {
-	  		ctx.strokeStyle = 'red';
+	  		ctx.fillStyle = 'red';
 	  	}
 	  	else if(pressed == 121) {
-	  		ctx.strokeStyle = 'yellow';
+	  		ctx.fillStyle = 'yellow';
 	  	}
-	  }
+  	}
 
 	function arrows(e) {
 		var keys = e.keyCode;
 		if(keys == 38) {
-			ctx.lineWidth += 1; 
+			radius += 1; 
 		}
 		else if(keys == 40) {
-			ctx.lineWidth -= 1;
+			if(radius > 1){
+				radius -= 1;
+			}
 		}
 		else if(keys == 32) {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 		}
 	}
 
-	canvas.addEventListener('mousemove', draw);
-	canvas.addEventListener('touchmove', draw);
-	canvas.addEventListener('touchstart', () => drawing = false);
-	canvas.addEventListener('mouseup', () => drawing = false);
-	canvas.addEventListener('mouseout', () => drawing = false);
-	canvas.addEventListener('touchend', () => drawing = false);
+	function colorPick(c){
+		ctx.fillStyle = c;
+	}
+
+	window.addEventListener('mousemove', function(e) {
+		x = e.offsetX;
+		y = e.offsetY;
+		draw();
+	})
+	window.addEventListener('touchmove', function(e) {
+		x = e.touches[0].pageX;
+		y = e.touches[0].pageY;
+		draw();
+	})
+
+	window.addEventListener("orientationchange", function() {
+	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  	})
+
 	window.addEventListener('keypress', color, false);
 	window.addEventListener('keydown', arrows, false);
 
-
-
-  	
-
-	
 </script>
 
-
-<!-- <script>
-	var canvas, ctx
-	var mouseX, mouseY, mouseDown = 0
-
-function draw(ctx,x,y,size) {
-  ctx.fillStyle = "#000000"
-  ctx.beginPath()
-  ctx.arc(x, y, size, 0, Math.PI*2, true)
-  ctx.closePath()
-  ctx.fill()
-}
-
-function clearCanvas(canvas,ctx) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-}
-
-function onMouseDown() {
-  mouseDown = 1
-  draw(ctx, mouseX, mouseY, 2)
-}
-
-function onMouseUp() {
-  mouseDown = 0
-}
-
-function onMouseMove(e) {
-  getMousePos(e)
-  if (mouseDown == 1) {
-      draw(ctx, mouseX, mouseY, 2)
-  }
-}
-
-function getMousePos(e) {
-  if (!e)
-      var e = event
-  if (e.offsetX) {
-      mouseX = e.offsetX
-      mouseY = e.offsetY
-  }
-  else if (e.layerX) {
-      mouseX = e.layerX
-      mouseY = e.layerY
-  }
- }
-
-function init() {
-    canvas = document.getElementById('canvas')
-    ctx = canvas.getContext('2d');
-    canvas.addEventListener('mousedown', onMouseDown, false)
-    canvas.addEventListener('mousemove', onMouseMove, false)
-    window.addEventListener('mouseup', onMouseUp, false)
-}
-init();
-</script> -->
 </body>
 </html>
