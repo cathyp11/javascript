@@ -15,8 +15,8 @@
 	<canvas id="canvas">
   		An alternative text describing what your canvas displays. 
 	</canvas>
-	changed height
-	<input type="color" value="#e66465" onchange="colorPick(value)">
+	changed to reload()
+	<input type="color" value="#e66465" id="colorPicker">
 
 <script type="text/javascript">
     var canvas = document.querySelector('canvas');
@@ -70,8 +70,9 @@
 		}
 	}
 
-	function colorPick(c){
-		ctx.fillStyle = c;
+	function colorPick(){
+		var c = document.getElementById('colorPicker');
+		ctx.fillStyle = c.value;
 	}
 
 	window.addEventListener('mousemove', function(e) {
@@ -91,6 +92,7 @@
 
 	window.addEventListener('keypress', color, false);
 	window.addEventListener('keydown', arrows, false);
+	document.getElementById("colorPicker").addEventListener('change',colorPick)
 
 </script>
 
