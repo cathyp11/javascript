@@ -8,8 +8,6 @@
 		}
 		canvas{
 			border: 1px solid black;
-			width: 80vw;
-			height: 80vh;
 		}
 	</style>
 </head>
@@ -26,7 +24,7 @@
 	canvas.height = window.innerHeight*.8;
 
 	ctx.fillStyle = 'red';
-	var radius = 5;
+	var radius = 3;
 
     function draw() {
         ctx.beginPath();
@@ -88,6 +86,8 @@
 
 	window.addEventListener("orientationchange", function() {
 	    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	 //    canvas.width = window.innerWidth*.8;
+		// canvas.height = window.innerHeight*.8;
   	})
 
 	window.addEventListener('keypress', color, false);
